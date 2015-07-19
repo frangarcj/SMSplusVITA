@@ -1,0 +1,47 @@
+PSPSDK=$(shell psp-config --pspsdk-path)
+
+PSPAPP=./psp
+SOUND=./sound
+Z80=./cpu
+PSPLIB=$(PSPAPP)/psplib
+DATA=$(PSPAPP)/data
+
+PSP_APP_NAME=SMS Plus PSP
+PSP_APP_VER=1.3.1
+
+TARGET=smsppsp
+EXTRA_TARGETS=EBOOT.PBP
+PSP_EBOOT_TITLE=$(PSP_APP_NAME) $(PSP_APP_VER)
+PSP_EBOOT_ICON=$(DATA)/smsp-icon.png
+
+BUILD_Z80=$(Z80)/z80.o
+BUILD_APP=sms.o	pio.o memz80.o render.o vdp.o tms.o \
+          system.o error.o fileio.o state.o loadrom.o
+BUILD_MINIZIP=unzip/ioapi.o unzip/unzip.o
+BUILD_SOUND=$(SOUND)/sound.o $(SOUND)/sn76489.o $(SOUND)/emu2413.o \
+            $(SOUND)/ym2413.o $(SOUND)/fmintf.o $(SOUND)/stream.o
+BUILD_PSPAPP=$(PSPAPP)/main.o $(PSPAPP)/emumain.o $(PSPAPP)/menu.o
+
+OBJS=$(BUILD_SOUND) $(BUILD_Z80) $(BUILD_MINIZIP) \
+     $(BUILD_APP) $(BUILD_PSPAPP)
+
+DEFINES=-DLSB_FIRST -DALIGN_DWORD -Dint32=int32_t -Dint16=int16_t
+BASE_DEFS=-DPSP -DPSP_APP_VER=\"$(PSP_APP_VER)\" -DPSP_APP_NAME="\"$(PSP_APP_NAME)\""
+CFLAGS=-O2 -G0 -Wall $(BASE_DEFS) $(DEFINES)
+CXXFLAGS=$(CFLAGS) -fno-exceptions -fno-rtti
+ASFLAGS=$(CFLAGS)
+INCDIR=$(PSPLIB) ./cpu ./sound ./unzip
+LIBDIR=$(PSPLIB)
+LIBS=-lpsplib -lpng -lm -lc -lz -lpspgu -lpsppower -lpspaudio -lpsprtc \
+     -lpspwlan -lpspnet_adhoc -lpspnet_adhocctl -lpspnet_adhocmatching
+
+all: build_libs
+clean: clean_libs
+
+include $(PSPSDK)/lib/build.mak
+
+build_libs:
+	cd $(PSPLIB) ; $(MAKE)
+clean_libs:
+	cd $(PSPLIB) ; $(MAKE) clean
+
