@@ -456,10 +456,10 @@ void InitMenu()
   /* Initialize UI components */
   UiMetric.Background = Background;
   UiMetric.Font = &PspStockFont;
-  UiMetric.Left = 8;
-  UiMetric.Top = 24;
-  UiMetric.Right = 472;
-  UiMetric.Bottom = 250;
+  UiMetric.Left = 16;
+  UiMetric.Top = 48;
+  UiMetric.Right = 944;
+  UiMetric.Bottom = 500;
   UiMetric.OkButton = (!Options.ControlMode) ? PSP_CTRL_CROSS : PSP_CTRL_CIRCLE;
   UiMetric.CancelButton = (!Options.ControlMode) ? PSP_CTRL_CIRCLE : PSP_CTRL_CROSS;
   UiMetric.ScrollbarColor = PSP_COLOR_GRAY;
@@ -838,17 +838,18 @@ int OnMenuButtonPress(const struct PspUiMenu *uimenu,
 int OnQuickloadOk(const void *browser, const void *path)
 {
   int first_time = 0;
-
   if (GAME_LOADED)
     system_poweroff();
   else first_time = 1;
+
+  printf("load rom");
 
   if (!load_rom((char*)path))
   {
     pspUiAlert("Error loading cartridge");
     return 0;
   }
-
+  printf("load_rom");
   SET_AS_CURRENT_GAME((char*)path);
   pl_file_get_parent_directory((const char*)path,
                                GamePath,
@@ -1138,17 +1139,17 @@ void LoadOptions()
   pl_ini_load(&init, path);
 
   /* Load values */
-  Options.DisplayMode = pl_ini_get_int(&init, "Video", "Display Mode", DISPLAY_MODE_UNSCALED);
+  Options.DisplayMode = pl_ini_get_int(&init, "Video", "Display Mode", DISPLAY_MODE_FIT_HEIGHT);
   Options.UpdateFreq = pl_ini_get_int(&init, "Video", "Update Frequency", 60);
-  Options.Frameskip = pl_ini_get_int(&init, "Video", "Frameskip", 1);
-  Options.VSync = pl_ini_get_int(&init, "Video", "VSync", 0);
-  Options.ClockFreq = pl_ini_get_int(&init, "Video", "PSP Clock Frequency", 222);
+  Options.Frameskip = pl_ini_get_int(&init, "Video", "Frameskip", 0);
+  Options.VSync = pl_ini_get_int(&init, "Video", "VSync", 1);
+  Options.ClockFreq = pl_ini_get_int(&init, "Video", "PSP Clock Frequency", 333);
   Options.ShowFps = pl_ini_get_int(&init, "Video", "Show FPS", 0);
   Options.ControlMode = pl_ini_get_int(&init, "Menu", "Control Mode", 0);
   UiMetric.Animate = pl_ini_get_int(&init, "Menu", "Animate", 1);
   Options.VertStrip = pl_ini_get_int(&init, "Game", "Vertical Strip", 1);
-  Options.SoundEngine = pl_ini_get_int(&init, "System", "FM Engine", SND_NULL);
-  Options.SoundBoost = pl_ini_get_int(&init, "System", "Sound Boost", 0);
+  Options.SoundEngine = pl_ini_get_int(&init, "System", "FM Engine", SND_YM2413);
+  Options.SoundBoost = pl_ini_get_int(&init, "System", "Sound Boost", 2);
   Options.AutoFire = pl_ini_get_int(&init, "Input", "Autofire", 2);
   Options.RewindSaveRate = pl_ini_get_int(&init, "Enhancements", "Rewind Save Rate", 5);
   Options.RewindReplayDelay = pl_ini_get_int(&init, "Enhancements", "Rewind Replay Delay", 50);

@@ -72,7 +72,7 @@ void InitEmulator()
   snd.fps = FPS_NTSC;
   snd.fm_clock = CLOCK_NTSC;
   snd.psg_clock = CLOCK_NTSC;
-  snd.sample_rate = 44100;
+  snd.sample_rate = 48000;
   snd.mixer_callback = MixerCallback;
 
   sms.use_fm = 0;
@@ -149,7 +149,7 @@ void RunEmulator()
     sceRtcGetCurrentTick(&LastTick);
   }
   Frame = 0;
-  ClearScreen = 1;
+  ClearScreen = 2;
   Rewinding = 0;
 
 //pl_rewind_realloc(&Rewinder);

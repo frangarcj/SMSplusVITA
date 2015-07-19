@@ -57,7 +57,7 @@ int load_rom(char *filename)
         cart.rom = malloc(size);
         if(!cart.rom) return 0;
         sceIoRead(fd, cart.rom, size);
-
+        strcpy(game_name, filename);
         sceIoClose(fd);
     }
 
