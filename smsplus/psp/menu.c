@@ -427,7 +427,7 @@ void InitMenu()
 
   /* Load the background image */
   pl_file_path background;
-  snprintf(background, sizeof(background) - 1, "%sbackground.png",
+  snprintf(background, sizeof(background) - 1, "%sbackgroundsms.png",
            pl_psp_get_app_directory());
   Background = pspImageLoadPng(background);
   //Background = pspImageLoadPng("background.png");
@@ -1142,7 +1142,7 @@ void LoadOptions()
   Options.DisplayMode = pl_ini_get_int(&init, "Video", "Display Mode", DISPLAY_MODE_FIT_HEIGHT);
   Options.UpdateFreq = pl_ini_get_int(&init, "Video", "Update Frequency", 60);
   Options.Frameskip = pl_ini_get_int(&init, "Video", "Frameskip", 0);
-  Options.VSync = pl_ini_get_int(&init, "Video", "VSync", 0);
+  Options.VSync = pl_ini_get_int(&init, "Video", "VSync", 1);
   Options.ClockFreq = pl_ini_get_int(&init, "Video", "PSP Clock Frequency", 333);
   Options.ShowFps = pl_ini_get_int(&init, "Video", "Show FPS", 0);
   Options.ControlMode = pl_ini_get_int(&init, "Menu", "Control Mode", 0);

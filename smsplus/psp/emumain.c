@@ -305,7 +305,8 @@ void RenderVideo()
 	if (Screen->Depth == PSP_IMAGE_INDEXED && bitmap.pal.update)
 	{
     unsigned char r, g, b;
-    unsigned short c, i;
+    unsigned short i;
+    uint32_t c;
 
 		for(i = 0; i < PALETTE_SIZE; i++)
 		{
