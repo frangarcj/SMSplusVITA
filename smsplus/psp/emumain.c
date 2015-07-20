@@ -315,11 +315,11 @@ void RenderVideo()
         g = bitmap.pal.color[i][1];
         b = bitmap.pal.color[i][2];
         c = MAKE_PIXEL(r,g,b);
-
-        Screen->Palette[i] = c;
-        Screen->Palette[i|0x20] = c;
-        Screen->Palette[i|0x40] = c;
-        Screen->Palette[i|0x60] = c;
+        uint32_t*palette_aux = (uint32_t*)Screen->Palette;
+        palette_aux[i] = c;
+        palette_aux[i|0x20] = c;
+        palette_aux[i|0x40] = c;
+        palette_aux[i|0x60] = c;
       }
     }
   }

@@ -4,7 +4,7 @@
 
 #ifdef PSP
 #include "psplib/video.h"
-#define MAKE_PIXEL(r,g,b)   RGB(r,g,b)
+#define MAKE_PIXEL(r,g,b)   RGB_32(r,g,b)
 #else
 /* Pack RGB data into a 16-bit RGB 5:6:5 format */
 #define MAKE_PIXEL(r,g,b)   (((r << 8) & 0xF800) | ((g << 3) & 0x07E0) | ((b >> 3) & 0x001F))
