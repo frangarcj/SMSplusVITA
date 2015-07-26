@@ -129,9 +129,17 @@ void RunEmulator()
     ScreenH = SCR_HEIGHT;
     break;
   case DISPLAY_MODE_FILL_SCREEN:
-    ScreenW = SCR_WIDTH - 3;
+    ScreenW = SCR_WIDTH;
     ScreenH = SCR_HEIGHT;
     break;
+  case DISPLAY_MODE_2X:
+      ScreenW = Screen->Viewport.Width*2;
+      ScreenH = Screen->Viewport.Height*2;
+      break;
+  case DISPLAY_MODE_3X:
+      ScreenW = Screen->Viewport.Width*3;
+      ScreenH = Screen->Viewport.Height*3;
+      break;
   }
 
   ScreenX = (SCR_WIDTH / 2) - (ScreenW / 2);

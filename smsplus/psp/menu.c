@@ -144,6 +144,8 @@ PL_MENU_OPTIONS_BEGIN(ToggleOptions)
 PL_MENU_OPTIONS_END
 PL_MENU_OPTIONS_BEGIN(ScreenSizeOptions)
   PL_MENU_OPTION("Actual size",              DISPLAY_MODE_UNSCALED)
+  PL_MENU_OPTION("4:3 scaled (2x)",  DISPLAY_MODE_2X)
+  PL_MENU_OPTION("4:3 scaled (3x)",  DISPLAY_MODE_3X)
   PL_MENU_OPTION("4:3 scaled (fit height)",  DISPLAY_MODE_FIT_HEIGHT)
   PL_MENU_OPTION("16:9 scaled (fit screen)", DISPLAY_MODE_FILL_SCREEN)
 PL_MENU_OPTIONS_END
@@ -414,7 +416,7 @@ void InitMenu()
 
   /* Initialize paths */
   sprintf(SaveStatePath, "%ssavedata/", pl_psp_get_app_directory());
-  sprintf(ScreenshotPath, "%s/%s/",  pl_psp_get_app_directory(), PSP_APP_NAME);
+  sprintf(ScreenshotPath, "%sscreenshot/",  pl_psp_get_app_directory());
   sprintf(GamePath, "%s", pl_psp_get_app_directory());
 
   if (!pl_file_exists(SaveStatePath))
@@ -762,7 +764,12 @@ int  OnMenuItemChanged(const struct PspUiMenu *uimenu,
       Options.RewindReplayDelay = (int)option->value;
       break;
     }
+
+    SaveOptions();
+
   }
+
+
 
   return 1;
 }
@@ -842,14 +849,12 @@ int OnQuickloadOk(const void *browser, const void *path)
     system_poweroff();
   else first_time = 1;
 
-  printf("load rom");
-
   if (!load_rom((char*)path))
   {
     pspUiAlert("Error loading cartridge");
     return 0;
   }
-  printf("load_rom");
+
   SET_AS_CURRENT_GAME((char*)path);
   pl_file_get_parent_directory((const char*)path,
                                GamePath,
@@ -991,9 +996,9 @@ int OnSaveStateButtonPress(const PspUiGallery *gallery,
 void OnSystemRender(const void *uiobject, const void *item_obj)
 {
   int w, h, x, y;
-  w = Screen->Viewport.Width >> 1;
-  h = Screen->Viewport.Height >> 1;
-  x = SCR_WIDTH - w - 8;
+  w = Screen->Viewport.Width*1.5;
+  h = Screen->Viewport.Height*1.5;
+  x = SCR_WIDTH - w - 16;
   y = SCR_HEIGHT - h - 80;
 
   /* Draw a small representation of the screen */
@@ -1022,6 +1027,7 @@ static void DisplayStateTab()
   memset(&latest, 0, sizeof(latest));
 
   /* Initialize icons */
+  sel = SaveStateGallery.Menu.items;
   for (item = SaveStateGallery.Menu.items; item; item = item->next)
   {
     sprintf(path, "%s%s.s%02i", SaveStatePath, config_name, item->id);

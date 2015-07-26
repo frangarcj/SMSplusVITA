@@ -8,6 +8,8 @@ void TrashEmulator();
 #define DISPLAY_MODE_UNSCALED    0
 #define DISPLAY_MODE_FIT_HEIGHT  1
 #define DISPLAY_MODE_FILL_SCREEN 2
+#define DISPLAY_MODE_2X 3
+#define DISPLAY_MODE_3X 4
 
 #define JOY 0x10000
 #define SYS 0x20000
@@ -23,7 +25,7 @@ void TrashEmulator();
 
 #define MAP_ANALOG_UP          0
 #define MAP_ANALOG_DOWN        1
-#define MAP_ANALOG_LEFT        2 
+#define MAP_ANALOG_LEFT        2
 #define MAP_ANALOG_RIGHT       3
 #define MAP_BUTTON_UP          4
 #define MAP_BUTTON_DOWN        5

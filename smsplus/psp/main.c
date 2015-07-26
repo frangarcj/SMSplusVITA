@@ -22,7 +22,7 @@ static void ExitCallback(void* arg)
 int main(int argc,char *argv[])
 {
   /* Initialize PSP */
-  pl_psp_init("cache0:/VitaDefilerClient/Documents/");
+  pl_psp_init("cache0:/SMSPlusVITA/");
   pl_snd_init(768, 1);
   pspCtrlInit();
   pspVideoInit();
