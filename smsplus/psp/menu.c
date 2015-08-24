@@ -501,7 +501,7 @@ void DisplayMenu()
     ResumeEmulation = 0;
 
     /* Set normal clock frequency */
-    pl_psp_set_clock_freq(222);
+    //pl_psp_set_clock_freq(222);
     /* Set buttons to autorepeat */
     pspCtrlSetPollingMode(PSP_CTRL_AUTOREPEAT);
 
@@ -575,7 +575,7 @@ void DisplayMenu()
     if (!ExitPSP)
     {
       /* Set clock frequency during emulation */
-      pl_psp_set_clock_freq(Options.ClockFreq);
+      //pl_psp_set_clock_freq(Options.ClockFreq);
       /* Set buttons to normal mode */
       pspCtrlSetPollingMode(PSP_CTRL_NORMAL);
 
