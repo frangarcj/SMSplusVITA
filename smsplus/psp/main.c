@@ -43,12 +43,12 @@ static void ExitCallback(void* arg)
 int main(int argc,char *argv[])
 {
   /* Initialize PSP */
-  pl_psp_init("cache0:/SMSPlusVITA/");
+  pl_psp_init("ux0:/data/SMSPlusVITA/");
   pl_snd_init(768, 1);
   pspCtrlInit();
   pspVideoInit();
 
-  show_splash();
+  //show_splash();
 
   /* Initialize callbacks */
   pl_psp_register_callback(PSP_EXIT_CALLBACK,
