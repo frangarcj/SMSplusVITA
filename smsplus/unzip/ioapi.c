@@ -75,13 +75,13 @@ voidpf ZCALLBACK fopen_file_func (opaque, filename, mode)
     SceUID file = NULL;
     int mode_fopen = 0;
     if ((mode & ZLIB_FILEFUNC_MODE_READWRITEFILTER)==ZLIB_FILEFUNC_MODE_READ)
-        mode_fopen = PSP2_O_RDONLY;
+        mode_fopen = SCE_O_RDONLY;
     else
     if (mode & ZLIB_FILEFUNC_MODE_EXISTING)
-        mode_fopen = PSP2_O_RDWR;
+        mode_fopen = SCE_O_RDWR;
     else
     if (mode & ZLIB_FILEFUNC_MODE_CREATE)
-        mode_fopen = PSP2_O_WRONLY | PSP2_O_CREAT;
+        mode_fopen = SCE_O_WRONLY | SCE_O_CREAT;
 
     if ((filename!=NULL) && (mode_fopen != 0))
         file = sceIoOpen(filename, mode_fopen, 0777);
@@ -117,8 +117,8 @@ long ZCALLBACK ftell_file_func (opaque, stream)
    voidpf stream;
 {
     long ret;
-    ret = sceIoLseek((SceUID)stream,0,PSP2_SEEK_END);
-    sceIoLseek((SceUID)stream,0,PSP2_SEEK_SET);
+    ret = sceIoLseek((SceUID)stream,0,SCE_SEEK_END);
+    sceIoLseek((SceUID)stream,0,SCE_SEEK_SET);
     return ret;
 }
 
@@ -133,13 +133,13 @@ long ZCALLBACK fseek_file_func (opaque, stream, offset, origin)
     switch (origin)
     {
     case ZLIB_FILEFUNC_SEEK_CUR :
-        fseek_origin = PSP2_SEEK_CUR;
+        fseek_origin = SCE_SEEK_CUR;
         break;
     case ZLIB_FILEFUNC_SEEK_END :
-        fseek_origin = PSP2_SEEK_END;
+        fseek_origin = SCE_SEEK_END;
         break;
     case ZLIB_FILEFUNC_SEEK_SET :
-        fseek_origin = PSP2_SEEK_SET;
+        fseek_origin = SCE_SEEK_SET;
         break;
     default: return -1;
     }

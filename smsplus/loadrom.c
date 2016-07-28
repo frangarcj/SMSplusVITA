@@ -47,12 +47,12 @@ int load_rom(char *filename)
 
         SceUID fd = NULL;
 
-        fd = sceIoOpen(filename,PSP2_O_RDONLY,0777);
+        fd = sceIoOpen(filename,SCE_O_RDONLY,0777);
         if(fd<=0) return 0;
 
         /* Seek to end of file, and get size */
-        size=sceIoLseek(fd,0,PSP2_SEEK_END);
-    		sceIoLseek(fd,0,PSP2_SEEK_SET);
+        size=sceIoLseek(fd,0,SCE_SEEK_END);
+    		sceIoLseek(fd,0,SCE_SEEK_SET);
 
         cart.rom = malloc(size);
         if(!cart.rom) return 0;

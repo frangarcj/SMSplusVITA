@@ -29,7 +29,7 @@ BUILD_PORT=$(PSPAPP)/main.o $(PSPAPP)/emumain.o $(PSPAPP)/menu.o
 OBJS=$(BUILD_SOUND) $(BUILD_Z80) $(BUILD_MZ) \
      $(BUILD_EMUL) $(BUILD_PORT)
 
-LIBS= -lpsplib -lvita2d  -lfreetype -lpng -lz -lm -lSceDisplay_stub -lSceGxm_stub 	\
+LIBS= -lpsplib -lvita2d  -lfreetype -lpng -lz -lm -lSceSysmodule_stub -lSceCommonDialog_stub -lSceDisplay_stub -lSceGxm_stub 	\
 	-lSceCtrl_stub -lSceAudio_stub -lSceRtc_stub -lScePower_stub -lSceAppUtil_stub
 
 DEFINES = -DPSP -DPSP_APP_NAME=\"$(PSP_APP_NAME)\" -DPSP_APP_VER=\"$(PSP_APP_VER)\" \
@@ -50,21 +50,20 @@ CFLAGS  = -Wl,-q -O3 $(INCLUDES) $(DEFINES) -fno-exceptions \
 CXXFLAGS = $(CFLAGS) -fno-rtti -Wno-deprecated -Wno-comment -Wno-sequence-point
 ASFLAGS = $(CFLAGS)
 
+all: eboot.bin
 
-
-all: $(TARGET).velf
-
+eboot.bin: $(TARGET).velf
+	vita-make-fself $(TARGET).velf $@
+	vita-mksfoex -s TITLE_ID=FRAN00001 "SMSPlusVITA" param.sfo
 $(TARGET).velf: $(TARGET).elf
-	#advice from xyzz strip before create elf
-		$(PREFIX)-strip -g $<
-	#i put db.json there use your location
-		vita-elf-create  $< $@ $(VITASDK)/bin/db.json
+	$(PREFIX)-strip -g $<
+	vita-elf-create $< $@ > /dev/null
 
 $(TARGET).elf: $(OBJS)
-	$(CC) $(CFLAGS) $(ASFLAGS) $^ $(LIBS) -o $@
+	$(CC) $(CFLAGS) $^ $(LIBS) -o $@
 
 clean:
 	@rm -rf $(TARGET).elf $(TARGET).velf $(OBJS) $(DATA)/*.h
 
-copy: $(TARGET).velf
-	@cp $(TARGET).velf ~/PSPSTUFF/compartido/$(TARGET).elf
+copy:  eboot.bin
+	@cp eboot.bin param.sfo /mnt/shared/SMSPlusVITA
