@@ -166,6 +166,7 @@ PL_MENU_OPTIONS_BEGIN(PspClockFreqOptions)
   PL_MENU_OPTION("266 MHz", 266)
   PL_MENU_OPTION("300 MHz", 300)
   PL_MENU_OPTION("333 MHz", 333)
+  PL_MENU_OPTION("444 MHz", 444)
 PL_MENU_OPTIONS_END
 PL_MENU_OPTIONS_BEGIN(AutofireOptions)
   PL_MENU_OPTION("Once every 3 frames", 2)
@@ -429,8 +430,8 @@ void InitMenu()
 
   /* Load the background image */
   pl_file_path background;
-  snprintf(background, sizeof(background) - 1, "%sbackgroundsms.png",
-           pl_psp_get_app_directory());
+  snprintf(background, sizeof(background) - 1, "%sbackgroundsms.png", "app0:/"
+           /*pl_psp_get_app_directory()*/);
   Background = pspImageLoadPng(background);
   //Background = pspImageLoadPng("background.png");
 
